@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python /users/jarrod/PycharmProjects/mac-bingwallpaper/set_wallpaper.py
+cp ~/PycharmProjects/mac-bingwallpaper/jarrod_bingwallpaper/get_picture.py /users/jarrod/Desktop
