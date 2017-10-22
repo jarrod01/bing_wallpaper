@@ -18,6 +18,8 @@ def get_pic(country='cn'):
     # pic_name = 'picture_of_the_day.jpg'
     home = os.environ['HOME']
     pic_path = os.path.join(home, os.path.join('Pictures', 'bing-wallpapers'))
+    if not os.path.exists(pic_path):
+        os.mkdir(pic_path)
     existing_pics = os.listdir(pic_path)
     for f in existing_pics:
         os.remove(os.path.join(pic_path, f))
