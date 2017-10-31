@@ -1,4 +1,4 @@
-import os, re, urllib.request
+import os, re, urllib.request, platform
 from datetime import datetime
 
 def get_pic(country='cn'):
@@ -6,9 +6,12 @@ def get_pic(country='cn'):
     with urllib.request.urlopen(bing_url) as f:
         contents = f.read().decode('utf-8')
     pattern = re.compile(r'g_img={url:\s\"(.+\.jpg)\",')
-    pic_url = pattern.findall(contents)
-    if pic_url:
-        pic_url = bing_url + pic_url[0]
+    pic_url_original = pattern.findall(contents)
+    if pic_url_original:
+        if pic_url_original[0][:14] == '''//www.bing.com''':
+            pic_url = 'http://'+ pic_url_original[0][2:]
+        else:
+            pic_url = bing_url + pic_url_original[0]
         print('pic_url: ' + pic_url)
     else:
         return None
@@ -16,8 +19,14 @@ def get_pic(country='cn'):
     now = datetime.now().strftime('%Y-%m-%d')
     pic_name = now + '-' + os.path.split(pic_url)[1]
     # pic_name = 'picture_of_the_day.jpg'
-    home = os.environ['HOME']
+    os_type = platform.system()
+    if os_type == 'Windows':
+        home = os.environ['USERPROFILE']
+    else:
+        home = os.environ['HOME']
     pic_path = os.path.join(home, os.path.join('Pictures', 'bing-wallpapers'))
+    if not os.path.exists(os.path.join(home, 'Pictures')):
+        os.mkdir(os.path.join(home, 'Pictures'))
     if not os.path.exists(pic_path):
         os.mkdir(pic_path)
     existing_pics = os.listdir(pic_path)
