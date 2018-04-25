@@ -2,7 +2,7 @@ import os, re, urllib.request, platform
 from datetime import datetime
 
 def get_pic(country='cn'):
-    bing_url = 'http://' + country +'.bing.com/'
+    bing_url = 'https://' + country +'.bing.com/'
     with urllib.request.urlopen(bing_url) as f:
         contents = f.read().decode('utf-8')
     pattern = re.compile(r'g_img={url:\s\"(.+\.jpg)\",')
